@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeToggle } from "./ThemeToggle";
 import { Github, PlusCircle } from "lucide-react";
 
@@ -13,15 +14,20 @@ export const BlogHeader = ({ title, description, githubUrl }: BlogHeaderProps) =
     <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <h1 className="text-3xl md:text-4xl font-bold text-blog-hero mb-2">
-              {title}
-            </h1>
-            <p className="text-lg text-blog-subtitle max-w-2xl">
-              {description}
-            </p>
+          {/* Left side with menu trigger and title */}
+          <div className="flex items-center gap-4 flex-1">
+            <SidebarTrigger className="hover:bg-muted/50 transition-colors" />
+            <div className="flex-1">
+              <h1 className="text-3xl md:text-4xl font-bold text-blog-hero mb-2">
+                {title}
+              </h1>
+              <p className="text-lg text-blog-subtitle max-w-2xl">
+                {description}
+              </p>
+            </div>
           </div>
           
+          {/* Right side with actions */}
           <div className="flex items-center gap-3">
             <ThemeToggle />
             

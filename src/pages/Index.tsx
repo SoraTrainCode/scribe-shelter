@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { BlogHeader } from "@/components/blog/BlogHeader";
+import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { SearchAndFilters } from "@/components/blog/SearchAndFilters";
 import { PostCard } from "@/components/blog/PostCard";
 import { PostModal } from "@/components/blog/PostModal";
@@ -64,53 +66,59 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <BlogHeader 
-        title={blogConfig.title}
-        description={blogConfig.description}
-        githubUrl={blogConfig.githubUrl}
-      />
-      
-      <SearchAndFilters
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        selectedTags={selectedTags}
-        onTagToggle={handleTagToggle}
-        availableTags={availableTags}
-        sortBy={sortBy}
-        sortOrder={sortOrder}
-        onSortChange={handleSortChange}
-      />
+    <SidebarProvider defaultOpen={false}>
+      <div className="min-h-screen w-full flex bg-background">
+        <BlogSidebar />
+        
+        <div className="flex-1 flex flex-col min-w-0">
+          <BlogHeader 
+            title={blogConfig.title}
+            description={blogConfig.description}
+            githubUrl={blogConfig.githubUrl}
+          />
+          
+          <SearchAndFilters
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedTags={selectedTags}
+            onTagToggle={handleTagToggle}
+            availableTags={availableTags}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSortChange={handleSortChange}
+          />
 
-      <main className="container mx-auto px-4 pb-12">
-        {filteredAndSortedPosts.length === 0 ? (
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-muted-foreground mb-4">
-              No posts found
-            </h2>
-            <p className="text-blog-excerpt">
-              Try adjusting your search terms or selected tags.
-            </p>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:gap-8">
-            {filteredAndSortedPosts.map((post) => (
-              <PostCard 
-                key={post.id} 
-                post={post} 
-                onReadMore={handleReadMore}
-              />
-            ))}
-          </div>
-        )}
-      </main>
+          <main className="container mx-auto px-4 pb-12 flex-1">
+            {filteredAndSortedPosts.length === 0 ? (
+              <div className="text-center py-12">
+                <h2 className="text-2xl font-bold text-muted-foreground mb-4">
+                  No posts found
+                </h2>
+                <p className="text-blog-excerpt">
+                  Try adjusting your search terms or selected tags.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:gap-8">
+                {filteredAndSortedPosts.map((post) => (
+                  <PostCard 
+                    key={post.id} 
+                    post={post} 
+                    onReadMore={handleReadMore}
+                  />
+                ))}
+              </div>
+            )}
+          </main>
 
-      <PostModal
-        post={selectedPost}
-        isOpen={selectedPost !== null}
-        onClose={() => setSelectedPost(null)}
-      />
-    </div>
+          <PostModal
+            post={selectedPost}
+            isOpen={selectedPost !== null}
+            onClose={() => setSelectedPost(null)}
+          />
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
 
